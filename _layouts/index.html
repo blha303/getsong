@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>getsong by blha303</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="javascripts/scale.fix.js"></script>
+    <link rel="stylesheet" href="{{ site.path }}/stylesheets/styles.css">
+    <link rel="stylesheet" href="{{ site.path }}/stylesheets/github-dark.css">
+    <script src="{{ site.path }}/javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
     <!--[if lt IE 9]>
@@ -27,33 +27,7 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a id="getsong" class="anchor" href="#getsong" aria-hidden="true"><span class="octicon octicon-link"></span></a>getsong</h1>
-
-<p>A Python program which uses BeautifulSoup and Youtube-dl to download a song from youtube</p>
-
-<h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
-
-<pre><code>usage: getsong [-h] [-y] [-m] term
-
-positional arguments:
-  term              Youtube search term
-
-optional arguments:
-  -h, --help        show this help message and exit
-  -y, --yes         Skip prompt
-  -m, --musicvideo  Get first result for &lt;term&gt;, not '&lt;term&gt; lyrics'
-</code></pre>
-
-<h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
-
-<ul>
-<li>Install dependencies. <code>pip install -R requirements.txt</code> or <code>pip install beautifulsoup4 youtube-dl</code>
-</li>
-<li>Copy getsong to a directory on your path. For example, <code>/usr/local/bin</code>.</li>
-</ul>
+{{ content }}
       </section>
     </div>
     <footer>
