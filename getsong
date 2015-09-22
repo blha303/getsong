@@ -28,10 +28,14 @@ def main():
     if not uri:
         print "Could not find result for {}. http://youtube.com/results?{}".format(term, urllib.urlencode({'search_query': term}))
         return 2
-    cont = args.yes or raw_input("About to download the audio for {}, is this correct? [y] ".format(title)) or "y"
+    try:
+        cont = args.yes or raw_input("About to download the audio for {}, is this correct? [y] ".format(title)) or "y"
+    except KeyboardInterrupt:
+        cont = "ctrl-c"
+        print ""
     if cont in [True, "y", "Y", "yes", ""]:
         return get_video(uri)
-    print "Aborted."
+    print "\nAborted."
     return 0
 
 if __name__ == "__main__":
