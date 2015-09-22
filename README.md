@@ -19,5 +19,5 @@ Usage
 Installation
 ------------
 
-* Install dependencies. `pip install -R requirements.txt` or `pip install beautifulsoup4 youtube-dl`
+* Install dependencies. `pip install -R requirements.txt` or `pip install beautifulsoup4 youtube-dl`. Also requires `ffmpeg` (or avconv) to fix the container on the downloaded audio.
 * Copy getsong to a directory on your path. For example, `/usr/local/bin`.
