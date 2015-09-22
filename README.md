@@ -18,4 +18,5 @@ Usage
 Installation
 ------------
 
-Copy getsong to a directory in your path. Use `sudo pip install beautifulsoup4 youtube-dl`.
+* Install dependencies. `pip install -R requirements.txt` or `pip install beautifulsoup4 youtube-dl`
+* Copy getsong to a directory on your path. For example, `/usr/local/bin`.
