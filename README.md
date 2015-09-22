@@ -6,14 +6,15 @@ A Python program which uses BeautifulSoup and Youtube-dl to download a song from
 Usage
 -----
 
-    usage: getsong [-h] [-y] term
+    usage: getsong [-h] [-y] [-m] term
     
     positional arguments:
-      term        Youtube search term
-
+      term              Youtube search term
+    
     optional arguments:
-      -h, --help  show this help message and exit
-      -y, --yes   Skip prompt
+      -h, --help        show this help message and exit
+      -y, --yes         Skip prompt
+      -m, --musicvideo  Get first result for <term>, not '<term> lyrics'
 
 Installation
 ------------
