@@ -35,7 +35,7 @@ def main():
         print ""
     if cont in [True, "y", "Y", "yes", ""]:
         return get_video(uri)
-    print "\nAborted."
+    print "Aborted."
     return 0
 
 if __name__ == "__main__":
