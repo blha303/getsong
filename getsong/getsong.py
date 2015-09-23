@@ -37,12 +37,9 @@ def main():
     if not uri:
         print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})))
         return 2
+    askstr = "About to download the audio for {}, is this correct? [y] ".format(title)
     try:
-        input = raw_input
-    except NameError:
-        pass
-    try:
-        cont = args.yes or input("About to download the audio for {}, is this correct? [y] ".format(title)) or "y"
+        cont = args.yes or (raw_input(askstr) if hasattr(__builtins__, "raw_input") else input(askstr)) or "y"
     except KeyboardInterrupt:
         cont = "ctrl-c"
         print("")
