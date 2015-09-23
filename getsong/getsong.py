@@ -8,7 +8,6 @@ except ImportError: # Python 2
 import argparse
 import youtube_dl
 from bs4 import BeautifulSoup as Soup
-from builtins import input
 from sys import exit, version_info
 
 
@@ -38,14 +37,18 @@ def main():
     if not uri:
         print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})))
         return 2
-    response = input("About to download the audio for {}.\nIs this correct? [y/n] ".format(title))
     try:
-        cont = args.yes or response in ['Y', 'y']
+        input = raw_input
+    except NameError:
+        pass
+    try:
+        cont = args.yes or input("About to download the audio for {}, is this correct? [y] ".format(title)) or "y"
     except KeyboardInterrupt:
-        cont = False
-    if cont:
+        cont = "ctrl-c"
+        print("")
+    if cont in [True, "y", "Y", "yes", ""]:
         return get_video(uri)
-    print("\nAborted.")
+    print("Aborted.")
     return 0
 
 
