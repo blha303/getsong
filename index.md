@@ -8,6 +8,8 @@ getsong
 
 A Python program which uses BeautifulSoup and Youtube-dl to download a song from youtube
 
+The result will be stored in the current working directory.
+
 Usage
 -----
 
@@ -24,4 +26,12 @@ Usage
 Installation
 ------------
 
-* `pip install getsong`, or clone the repository and run `python setup.py install`. `ffmpeg` (or avconv) is suggested to fix the container on the downloaded audio.
+Via `pip`:
+
+    pip install getsong
+
+Alternatively:
+
+ * Clone the repository, `cd getsong`
+ * Run `python setup.py install` or `pip install -e`
+  * `ffmpeg` (or `avconv`) is suggested to fix the container on the downloaded audio.
