@@ -10,7 +10,7 @@ setup(
     entry_points = {
         "console_scripts": ['getsong = getsong.getsong:main']
         },
-    version = "v1.0.4",
+    version = "v1.1.0",
     description = "A Python program which uses BeautifulSoup and Youtube-dl to download a song from youtube",
     long_description = long_descr,
     author = "Steven Smith",
@@ -22,6 +22,8 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3",
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: System Administrators",
         "Topic :: Multimedia :: Sound/Audio"
