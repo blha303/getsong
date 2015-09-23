@@ -39,11 +39,11 @@ def main():
         return 2
     askstr = "About to download the audio for {}, is this correct? [y] ".format(title)
     try:
-        cont = args.yes or (raw_input(askstr) if hasattr(__builtins__, "raw_input") else input(askstr)) or "y"
+        cont = args.yes or (raw_input(askstr) if hasattr(__builtins__, "raw_input") else input(askstr)).lower() or "y"
     except KeyboardInterrupt:
         cont = "ctrl-c"
         print("")
-    if cont in [True, "y", "Y", "yes", ""]:
+    if cont is True or (type(cont) is str and cont[0] == "y"):
         return get_video(uri)
     print("Aborted.")
     return 0
