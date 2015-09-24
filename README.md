@@ -23,10 +23,10 @@ Installation
 
 Via `pip`:
 
-    pip install getsong
+    pip3 install getsong
 
 Alternatively:
 
  * Clone the repository, `cd getsong`
- * Run `python setup.py install` or `pip install -e`
-  * `ffmpeg` (or `avconv`) is suggested to fix the container on the downloaded audio.
+ * Run `python3 setup.py install` or `pip3 install -e`
+ * `ffmpeg` (or `avconv`) is suggested to fix the container on the downloaded audio.
