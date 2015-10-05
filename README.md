@@ -17,6 +17,8 @@ Usage
       -h, --help        show this help message and exit
       -y, --yes         Skip prompt
       -m, --musicvideo  Get first result for <term>, not '<term> lyrics'
+      -p, --print-path  Prints path to file to stdout, so you can pipe it to a
+                        command or play the file or something
 
 Installation
 ------------
