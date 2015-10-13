@@ -32,7 +32,7 @@ def get_video(uri):
 
 
 def get_first_yt_result(term, musicvideo):
-    query = urlencode({'search_query': term + " lyrics" if not musicvideo else ""})
+    query = urlencode({'search_query': term + " lyrics" if not musicvideo else term})
     site = urlopen("https://www.youtube.com/results?" + query).read()
     soup = Soup(site, "html.parser")
     first_result = soup.find('h3', {'class': 'yt-lockup-title'})
