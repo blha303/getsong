@@ -12,24 +12,22 @@ import sys
 import os
 from bs4 import BeautifulSoup as Soup
 
-real_stdout = sys.stdout
+STDOUT = sys.stdout
 
 def prompt(*args):
-    old_stdout = sys.stdout
     try:
         sys.stdout = sys.stderr
         return raw_input(*args) if hasattr(__builtins__, "raw_input") else input(*args)
     finally:
-        sys.stdout = old_stdout
+        sys.stdout = STDOUT
 
 
 def get_video(uri):
-    old_stdout = sys.stdout
     sys.stdout = sys.stderr
     ydl_opts = {'format': '140'} # 140 is 128k m4a
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         retcode = ydl.download(['http://www.youtube.com{}'.format(uri)])
-    stdout = old_stdout
+    sys.stdout = STDOUT
     return retcode
 
 
@@ -69,7 +67,7 @@ def main():
     if args.print_path:
         try:
             changed = list(set([a for a in os.listdir(".") if a[-4:] == ".m4a"]) - set(before))
-            print(changed[0], file=real_stdout)
+            print(changed[0], file=STDOUT)
         except IndexError:
             pass
     return retcode
