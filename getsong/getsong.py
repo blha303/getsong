@@ -42,11 +42,12 @@ def get_first_yt_result(term, musicvideo):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="getsong")
     parser.add_argument("term", help="Youtube search term")
     parser.add_argument("-y", "--yes", help="Skip prompt", action="store_true")
     parser.add_argument("-m", "--musicvideo", help="Get first result for <term>, not '<term> lyrics'", action="store_true")
     parser.add_argument("-p", "--print-path", help="Prints path to file to stdout, so you can pipe it to a command or play the file or something", action="store_true")
+    parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
     args = parser.parse_args()
     if args.print_path:
         before = [a for a in os.listdir(".") if a[-4:] == ".m4a"]
@@ -54,6 +55,9 @@ def main():
     if not uri:
         print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})), file=sys.stderr)
         return 2
+    if args.print_url:
+        print("https://youtube.com{}".format(uri))
+        return 0
     askstr = "About to download the audio for {}, is this correct? [y] ".format(title)
     try:
         cont = args.yes or prompt(askstr).lower() or "y"

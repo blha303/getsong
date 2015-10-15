@@ -11,7 +11,7 @@ Usage
 
 ::
 
-    usage: getsong [-h] [-y] [-m] term
+    usage: getsong [-h] [-y] [-m] [-p] [-u] term
 
     positional arguments:
       term              Youtube search term
@@ -22,6 +22,7 @@ Usage
       -m, --musicvideo  Get first result for <term>, not '<term> lyrics'
       -p, --print-path  Prints path to file to stdout, so you can pipe it to a
                         command or play the file or something
+      -u, --print-url   Prints URL to stdout without downloading the audio track
 
 Installation
 ------------
