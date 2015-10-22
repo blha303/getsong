@@ -8,7 +8,7 @@ The result will be stored in the current working directory.
 Usage
 -----
 
-    usage: getsong [-h] [-y] [-m] [-p] [-u] term
+    usage: getsong [-h] [-y] [-m] [-p] [-u] [-q] term
     
     positional arguments:
       term              Youtube search term
@@ -20,6 +20,8 @@ Usage
       -p, --print-path  Prints path to file to stdout, so you can pipe it to a
                         command or play the file or something
       -u, --print-url   Prints URL to stdout without downloading the audio track
+      -q, --quiet       Hides youtube-dl output. Still shows y/n prompt if not
+                        hidden by -y
 
 Installation
 ------------

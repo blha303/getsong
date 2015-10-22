@@ -10,7 +10,7 @@ setup(
     entry_points = {
         "console_scripts": ['getsong = getsong.getsong:main']
         },
-    version = "1.2.1",
+    version = "1.2.2",
     description = "A Python program which uses BeautifulSoup and Youtube-dl to download a song from youtube",
     long_description = long_descr,
     author = "Steven Smith",
