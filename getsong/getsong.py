@@ -25,16 +25,33 @@ def prompt(*args):
         sys.stdout = STDOUT
 
 
-def get_video(uri, quiet):
+def get_video(uri, quiet=False):
     if quiet:
-        sys.stdout = StringIO()
+        sys.stdout = tmpout = StringIO()
     else:
         sys.stdout = sys.stderr
+        before = [a for a in os.listdir(".") if a[-4:] == ".m4a"]
     ydl_opts = {'format': '140'} # 140 is 128k m4a
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         retcode = ydl.download(['http://www.youtube.com{}'.format(uri)])
     sys.stdout = STDOUT
-    return retcode
+    filename = ""
+    if quiet:
+        for line in (l for l in tmpout.getvalue().split("\n") if l[:10] == "[download]"):
+            line = line.strip()
+            if "[download] Destination: " in line:
+                filename = line[24:]
+                break
+            elif line[-27:] == "has already been downloaded":
+                filename = line[11:-28]
+                break
+    else:
+        try:
+            changed = list(set([a for a in os.listdir(".") if a[-4:] == ".m4a"]) - set(before))
+            filename = changed[0]
+        except IndexError:
+            pass
+    return filename, retcode
 
 
 def get_first_yt_result(term, musicvideo):
@@ -56,8 +73,6 @@ def main():
     parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
     parser.add_argument("-q", "--quiet", help="Hides youtube-dl output. Still shows y/n prompt if not hidden by -y", action="store_true")
     args = parser.parse_args()
-    if args.print_path:
-        before = [a for a in os.listdir(".") if a[-4:] == ".m4a"]
     uri, title = get_first_yt_result(args.term, args.musicvideo)
     if not uri:
         print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})), file=sys.stderr)
@@ -71,16 +86,12 @@ def main():
     except KeyboardInterrupt:
         cont = "ctrl-c"
     if cont is True or (type(cont) is str and cont[0] == "y"):
-        retcode = get_video(uri, args.quiet)
+        filename, retcode = get_video(uri, args.quiet or args.print_path)
     else:
         print("\nAborted.", file=sys.stderr)
         return 0
     if args.print_path:
-        try:
-            changed = list(set([a for a in os.listdir(".") if a[-4:] == ".m4a"]) - set(before))
-            print(changed[0], file=STDOUT)
-        except IndexError:
-            pass
+        print(filename)
     return retcode
 
 
