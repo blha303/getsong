@@ -72,8 +72,9 @@ def main():
     parser.add_argument("-p", "--print-path", help="Prints path to file to stdout, so you can pipe it to a command or play the file or something", action="store_true")
     parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
     parser.add_argument("-q", "--quiet", help="Hides youtube-dl output. Still shows y/n prompt if not hidden by -y", action="store_true")
+    parser.add_argument("-i", "--id", help="Skip search, lookup ID. Use \"\" for the search term instead")
     args = parser.parse_args()
-    uri, title = get_first_yt_result(args.term, args.musicvideo)
+    uri, title = get_first_yt_result(args.term, args.musicvideo) if not args.id else "/watch?v={}".format(args.id), args.id
     if not uri:
         print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})), file=sys.stderr)
         return 2

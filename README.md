@@ -8,7 +8,7 @@ The result will be stored in the current working directory.
 Usage
 -----
 
-    usage: getsong [-h] [-y] [-m] [-p] [-u] [-q] term
+    usage: getsong [-h] [-y] [-m] [-p] [-u] [-q] [-i] term
     
     positional arguments:
       term              Youtube search term
@@ -22,6 +22,7 @@ Usage
       -u, --print-url   Prints URL to stdout without downloading the audio track
       -q, --quiet       Hides youtube-dl output. Still shows y/n prompt if not
                         hidden by -y
+      -i ID, --id ID    Skip search, lookup ID. Use "" for the search term instead
 
 Installation
 ------------
