@@ -60,7 +60,8 @@ def get_first_yt_result(term, musicvideo):
     soup = Soup(site, "html.parser")
     first_result = soup.find('h3', {'class': 'yt-lockup-title'})
     if first_result:
-        return first_result.find('a')["href"], first_result.find('a').text
+        uri, title = first_result.find('a')["href"], first_result.find('a').text
+        return uri, title
     return None, None
 
 
@@ -74,9 +75,12 @@ def main():
     parser.add_argument("-q", "--quiet", help="Hides youtube-dl output. Still shows y/n prompt if not hidden by -y", action="store_true")
     parser.add_argument("-i", "--id", help="Skip search, lookup ID. Use \"\" for the search term instead")
     args = parser.parse_args()
-    uri, title = get_first_yt_result(args.term, args.musicvideo) if not args.id else "/watch?v={}".format(args.id), args.id
-    if not uri:
-        print("Could not find result for {}. http://youtube.com/results?{}".format(term, urlencode({'search_query': term})), file=sys.stderr)
+    if args.id is None:
+        uri, title = get_first_yt_result(args.term, args.musicvideo)
+    else:
+        uri, title = "/watch?v={}".format(args.id), args.id
+    if not uri or not title:
+        print("Could not find result for {}. http://youtube.com/results?{}".format(args.term, urlencode({'search_query': args.term})), file=sys.stderr)
         return 2
     if args.print_url:
         print("https://youtube.com{}".format(uri))
