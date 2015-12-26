@@ -11,7 +11,9 @@ except ImportError: # Python 2
 import argparse
 import sys
 import os
+import json
 
+import mutagen.mp4
 import youtube_dl
 from bs4 import BeautifulSoup as Soup
 
@@ -24,34 +26,35 @@ def prompt(*args):
     finally:
         sys.stdout = STDOUT
 
+class StdoutPrinter(StringIO):
+    def __init__(self, quiet):
+        self.quiet = quiet
+        super(StdoutPrinter, self).__init__()
+    def write(self, txt):
+        if not txt[0] == "{" and not self.quiet:
+            print(txt.strip(), file=sys.stderr)
+        super(StdoutPrinter,self).write(txt)
 
 def get_video(uri, quiet=False):
-    if quiet:
-        sys.stdout = tmpout = StringIO()
-    else:
-        sys.stdout = sys.stderr
-        before = [a for a in os.listdir(".") if a[-4:] == ".m4a"]
-    ydl_opts = {'format': '140'} # 140 is 128k m4a
+    sys.stdout = tmpstdout = StdoutPrinter(quiet)
+    ydl_opts = {'format': '140', 'dump_single_json': True} # 140 is 128k m4a
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         retcode = ydl.download(['http://www.youtube.com{}'.format(uri)])
     sys.stdout = STDOUT
     filename = ""
-    if quiet:
-        for line in (l for l in tmpout.getvalue().split("\n") if l[:10] == "[download]"):
-            line = line.strip()
-            if "[download] Destination: " in line:
-                filename = line[24:]
-                break
-            elif line[-27:] == "has already been downloaded":
-                filename = line[11:-28]
-                break
-    else:
-        try:
-            changed = list(set([a for a in os.listdir(".") if a[-4:] == ".m4a"]) - set(before))
-            filename = changed[0]
-        except IndexError:
-            pass
-    return filename, retcode
+    tmpstdout = tmpstdout.getvalue().split("\n")
+    for line in (l for l in tmpstdout if l[:10] == "[download]"):
+        line = line.strip()
+        if "[download] Destination: " in line:
+            filename = line[24:]
+            break
+        elif line[-27:] == "has already been downloaded":
+            filename = line[11:-28]
+            break
+    for jsonline in (l for l in tmpstdout if l[0] == "{"):
+        data = json.loads(jsonline)
+        break
+    return filename, retcode, data
 
 
 def get_first_yt_result(term, musicvideo):
@@ -66,7 +69,7 @@ def get_first_yt_result(term, musicvideo):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="getsong")
+    parser = argparse.ArgumentParser(prog="getsong", epilog="Track numbering currently unsupported by mutagen")
     parser.add_argument("term", help="Youtube search term")
     parser.add_argument("-y", "--yes", help="Skip prompt", action="store_true")
     parser.add_argument("-m", "--musicvideo", help="Get first result for <term>, not '<term> lyrics'", action="store_true")
@@ -74,6 +77,9 @@ def main():
     parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
     parser.add_argument("-q", "--quiet", help="Hides youtube-dl output. Still shows y/n prompt if not hidden by -y", action="store_true")
     parser.add_argument("-i", "--id", help="Skip search, lookup ID. Use \"\" for the search term instead")
+    parser.add_argument("--artist", help="Uses Mutagen to write the artist information to the output file")
+    parser.add_argument("--title", help="Uses Mutagen to write the title information to the output file")
+    parser.add_argument("--album", help="Uses Mutagen to write the album information to the output file")
     args = parser.parse_args()
     if args.id is None:
         uri, title = get_first_yt_result(args.term, args.musicvideo)
@@ -91,12 +97,24 @@ def main():
     except KeyboardInterrupt:
         cont = "ctrl-c"
     if cont is True or (type(cont) is str and cont[0] == "y"):
-        filename, retcode = get_video(uri, args.quiet or args.print_path)
+        filename, retcode, json_data = get_video(uri, args.quiet or args.print_path)
     else:
         print("\nAborted.", file=sys.stderr)
         return 0
     if args.print_path:
         print(filename)
+    audio = mutagen.mp4.MP4(filename)
+    if args.title:
+        audio['\xa9nam'] = args.title
+    elif "alt_title" in json_data:
+        audio['\xa9nam'] = json_data["alt_title"]
+    if args.artist:
+        audio['\xa9ART'] = args.artist
+    elif "creator" in json_data:
+        audio['\xa9ART'] = json_data["creator"]
+    if args.album:
+        audio['\xa9alb'] = args.album
+    audio.save()
     return retcode
 
 
