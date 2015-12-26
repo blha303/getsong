@@ -11,7 +11,9 @@ Usage
 
 ::
 
-    usage: getsong [-h] [-y] [-m] [-p] [-u] [-q] [-i] term
+    usage: getsong [-h] [-y] [-m] [-p] [-u] [-q] [-i ID] [--artist ARTIST]
+                   [--title TITLE] [--album ALBUM]
+                   term
 
     positional arguments:
       term              Youtube search term
@@ -26,6 +28,14 @@ Usage
       -q, --quiet       Hides youtube-dl output. Still shows y/n prompt if not
                         hidden by -y
       -i ID, --id ID    Skip search, lookup ID. Use "" for the search term instead
+      --artist ARTIST   Uses Mutagen to write the artist information to the output
+                        file
+      --title TITLE     Uses Mutagen to write the title information to the output
+                        file
+      --album ALBUM     Uses Mutagen to write the album information to the output
+                        file
+
+    Track numbering currently unsupported by mutagen
 
 Installation
 ------------
