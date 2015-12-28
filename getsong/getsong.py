@@ -106,11 +106,11 @@ def main():
     audio = mutagen.mp4.MP4(filename)
     if args.title:
         audio['\xa9nam'] = args.title
-    elif "alt_title" in json_data:
+    elif json_data["alt_title"]:
         audio['\xa9nam'] = json_data["alt_title"]
     if args.artist:
         audio['\xa9ART'] = args.artist
-    elif "creator" in json_data:
+    elif json_data["creator"]:
         audio['\xa9ART'] = json_data["creator"]
     if args.album:
         audio['\xa9alb'] = args.album
