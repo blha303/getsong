@@ -75,7 +75,7 @@ def main():
     parser.add_argument("-m", "--musicvideo", help="Get first result for <term>, not '<term> lyrics'", action="store_true")
     parser.add_argument("-p", "--print-path", help="Prints path to file to stdout, so you can pipe it to a command or play the file or something", action="store_true")
     parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
-    parser.add_argument("-q", "--quiet", help="Hides youtube-dl output. Still shows y/n prompt if not hidden by -y", action="store_true")
+    parser.add_argument("-q", "--quiet", help="Hides youtube-dl output and information messages. Still shows y/n prompt if not hidden by -y", action="store_true")
     parser.add_argument("-i", "--id", help="Skip search, lookup ID. Use \"\" for the search term instead")
     parser.add_argument("--artist", help="Uses Mutagen to write the artist information to the output file")
     parser.add_argument("--title", help="Uses Mutagen to write the title information to the output file")
@@ -108,10 +108,14 @@ def main():
         audio['\xa9nam'] = args.title
     elif json_data["alt_title"]:
         audio['\xa9nam'] = json_data["alt_title"]
+    elif not args.quiet:
+        print("Title information could not be added", file=sys.stderr)
     if args.artist:
         audio['\xa9ART'] = args.artist
     elif json_data["creator"]:
         audio['\xa9ART'] = json_data["creator"]
+    elif not args.quiet:
+        print("Artist information could not be added", file=sys.stderr)
     if args.album:
         audio['\xa9alb'] = args.album
     audio.save()
