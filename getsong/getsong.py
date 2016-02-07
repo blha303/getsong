@@ -76,15 +76,11 @@ def main():
     parser.add_argument("-p", "--print-path", help="Prints path to file to stdout, so you can pipe it to a command or play the file or something", action="store_true")
     parser.add_argument("-u", "--print-url", help="Prints URL to stdout without downloading the audio track", action="store_true")
     parser.add_argument("-q", "--quiet", help="Hides youtube-dl output and information messages. Still shows y/n prompt if not hidden by -y", action="store_true")
-    parser.add_argument("-i", "--id", help="Skip search, lookup ID. Use \"\" for the search term instead")
     parser.add_argument("--artist", help="Uses Mutagen to write the artist information to the output file")
     parser.add_argument("--title", help="Uses Mutagen to write the title information to the output file")
     parser.add_argument("--album", help="Uses Mutagen to write the album information to the output file")
     args = parser.parse_args()
-    if args.id is None:
-        uri, title = get_first_yt_result(args.term, args.musicvideo)
-    else:
-        uri, title = "/watch?v={}".format(args.id), args.id
+    uri, title = get_first_yt_result(args.term, args.musicvideo)
     if not uri or not title:
         print("Could not find result for {}. http://youtube.com/results?{}".format(args.term, urlencode({'search_query': args.term})), file=sys.stderr)
         return 2
