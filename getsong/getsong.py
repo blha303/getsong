@@ -70,7 +70,7 @@ def get_first_yt_result(term, musicvideo):
 
 def main():
     parser = argparse.ArgumentParser(prog="getsong", epilog="Track numbering currently unsupported by mutagen")
-    parser.add_argument("term", help="Youtube search term")
+    parser.add_argument("term", help="Youtube search term (or video ID; add -m if using ID)")
     parser.add_argument("-y", "--yes", help="Skip prompt", action="store_true")
     parser.add_argument("-m", "--musicvideo", help="Get first result for <term>, not '<term> lyrics'", action="store_true")
     parser.add_argument("-p", "--print-path", help="Prints path to file to stdout, so you can pipe it to a command or play the file or something", action="store_true")
